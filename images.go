@@ -27,12 +27,32 @@ func (i *Image) Resize(width int, height int) (image *Image) {
     return
 }
 
-// todo
-func (i *Image) ResizeIn(width int, height int) (image *Image) {
-    max_width  := width
-    max_haight := height
+func (i *Image) Width() int {
+    if i.Image == nil {
+        return 0
+    }
+    return i.Image.Width()
+}
 
-    image = i.Resize(max_width, max_haight)
+func (i *Image) Height() int {
+    if i.Image == nil {
+        return 0
+    }
+    return i.Image.Height()
+}
+
+func (i *Image) ResizeIn(width int, height int) (image *Image) {
+    var w_ratio float64 = float64(width)  / float64(i.Image.Width())
+    var h_ratio float64 = float64(height) / float64(i.Image.Height())
+
+    if w_ratio == h_ratio {
+    } else if w_ratio < h_ratio {
+        height = int(float64(i.Image.Height()) * w_ratio)
+    } else {
+        width  = int(float64(i.Image.Width()) * h_ratio)
+    }
+
+    image = i.Resize(width, height)
 
     image.width  = image.Image.Width()
     image.height = image.Image.Height()
@@ -57,6 +77,11 @@ func (i *Image) SetTiff() *Image {
 
 func (i *Image) SetPng() *Image {
     i.Format = "PNG"
+    return i
+}
+
+func (i *Image) SetGif() *Image {
+    i.Format = "GIF"
     return i
 }
 
