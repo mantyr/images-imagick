@@ -1,7 +1,7 @@
 package images
 
 import (
-    mag "github.com/XuKaiqiang/golang-magick"
+    mag "github.com/mantyr/golang-magick"
     "errors"
     "path"
     "os"
@@ -13,7 +13,9 @@ func Open(address string) (i *Image, err error) {
     i.Quality = 100
 
     i.Image, i.Error = mag.DecodeFile(address)
-    i.Format = i.Image.Format()
+    if i.Error == nil {
+        i.Format = i.Image.Format()
+    }
     return i, i.Error
 }
 
@@ -109,4 +111,8 @@ func (i *Image) Save(address string) (err error) {
     }
     err = i.Image.Encode(file, info)
     return
+}
+
+func (i *Image) Dispose() {
+    i.Image.Dispose()
 }

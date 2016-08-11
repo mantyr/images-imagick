@@ -1,7 +1,7 @@
 package images
 
 import (
-    mag "github.com/XuKaiqiang/golang-magick"
+    mag "github.com/mantyr/golang-magick"
 )
 
 type Image struct {

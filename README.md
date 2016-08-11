@@ -8,7 +8,43 @@ This not stable version
 
 ## Installation
 
+    $ go get github.com/mantyr/golang-magick
     $ go get github.com/mantyr/images-imagick
+
+## Example
+
+```GO
+package main
+
+import (
+    images "github.com/mantyr/images-imagick"
+    "fmt"
+)
+
+func main() {
+    address := "file.png"
+
+    image, err := images.Open(address)
+    if err != nil {
+        fmt.Println(err)
+        return
+    }
+
+    w := image.Width()
+    h := image.Height()
+    w = int(w/2)
+    h = int(h/2)
+
+    address = "file.gif"
+
+    err = image.ResizeIn(w, h).SetGif().SetQuality(100).Save(address)
+    if err != nil {
+        fmt.Println(err)
+        return
+    }
+    image.Dispose()  // It is very important, otherwise it will be a memory leak
+}
+```
 
 ## Author
 
